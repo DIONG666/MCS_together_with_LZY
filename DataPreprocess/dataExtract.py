@@ -12,4 +12,4 @@ with h5py.File('../Data/BJ16_M32x32_T30_InOut.h5', "r") as f:
 
 output_file_path = '../Data/BJ16In.h5'
 with h5py.File(output_file_path, 'w') as new_file:
-    new_file.create_dataset('BJ16_In', data=extracted_data)
+    new_file.create_dataset('data', data=extracted_data)
