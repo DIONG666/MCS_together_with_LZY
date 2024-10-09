@@ -184,7 +184,7 @@ if __name__ == '__main__':
     opt = parse.parse_args()
 
     # path = 'data.h5'
-    path = './Data/BJ16_M32x32_T30_InOut.h5'
+    path = 'RawData/BJ16_M32x32_T30_InOut.h5'
     # feature_path = '../data/crawled_feature.csv'
     X, y, mmn = read_data(path, opt)
     x_train, x_test = X[:-opt.test_size], X[-opt.test_size:]
