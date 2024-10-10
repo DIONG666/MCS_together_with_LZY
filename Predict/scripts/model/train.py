@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import os
 import sys
 import argparse
@@ -13,12 +11,12 @@ from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 
 sys.path.append('../../')
-from Code.Predict.utils.dataset import read_data
-from Code.Predict.utils.transformer import Transformer
+from Predict.utils.dataset import read_data
+from Predict.utils.transformer import Transformer
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import h5py
 import time
-from Code.Predict.libs.print_para import print_para
+from Predict.libs.print_para import print_para
 
 torch.manual_seed(22)
 
@@ -43,8 +41,8 @@ parse.add_argument('-predict_size', type=int, default=1)
 
 parse.add_argument('-nb_flow', type=int, default=1)
 
-parse.add_argument('-height', type=int, default=32)
-parse.add_argument('-width', type=int, default=32)
+parse.add_argument('-height', type=int, default=4)
+parse.add_argument('-width', type=int, default=4)
 # =======================================<HERE !!>=========================================
 # =======================================<HERE !!>=========================================
 # default-1
@@ -58,8 +56,7 @@ parse.add_argument('-loss', type=str, default='l1', help='l1 | l2')  # default-l
 parse.add_argument('-lr', type=float, default=1e-3)  # default-0.001
 parse.add_argument('-weight_decay', type=float, default=5e-4, help='Weight decay (L2 loss on parameters).')
 
-parse.add_argument('-rows', nargs='+', type=int, default=[0, 32])  # default-32x32
-parse.add_argument('-cols', nargs='+', type=int, default=[0, 32])
+parse.add_argument('-cols', nargs='+', type=int, default=[0, 4])
 
 parse.add_argument('-last_kernel', type=int, default=1)
 parse.add_argument('-period_size', type=int, default=0)
@@ -79,7 +76,10 @@ parse.add_argument('-l2', dest='l2', help='weight decay', type=float, default=1e
 parse.add_argument('-adam', dest='adam', help='use adam. Not recommended', action='store_true')
 
 opt = parse.parse_args()
-device = torch.device("cuda:{}".format(opt.cuda))
+if torch.cuda.is_available():
+    device = torch.device(f"cuda:{opt.cuda}")
+else:
+    device = torch.device("cpu")
 
 model_ver = 'm_ver1'
 path_name = 'bj_taxi_result/' + model_ver
@@ -329,7 +329,6 @@ if __name__ == '__main__':
         train()
 
     pred, truth = predict('test')
-
 
     prediction_ct += pred[:, :, :].reshape(opt.test_size, -1)
     truth_ct += truth[:, :, :].reshape(opt.test_size, -1)

@@ -6,7 +6,7 @@ The data to extract is f['data'][i][0][j][k],
  `j` and `k` are the spatial dimensions.
 '''
 with h5py.File('../RawData/BJ16_M32x32_T30_InOut.h5', "r") as f:
-    extracted_data = f['data'][:, 0, :, :]
+    extracted_data = f['data'][:, 0, 14:18, 14:18]
 
 
 output_file_path = '../Predict/data/BJ16_In.h5'

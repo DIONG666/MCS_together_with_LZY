@@ -16,12 +16,12 @@ from torch.utils.data.sampler import SubsetRandomSampler
 import csv
 
 sys.path.append('../../')
-from utils.dataset import read_data
-from utils.transformer import Transformer
+from Predict.utils.dataset import read_data
+from Predict.utils.transformer import Transformer
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import h5py
 import time
-from libs.print_para import print_para
+from Predict.libs.print_para import print_para
 
 torch.manual_seed(22)
 
